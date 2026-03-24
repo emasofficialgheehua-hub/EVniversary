@@ -559,7 +559,7 @@ body { display:flex; flex-direction:column; }
     <option value="">— Select Prize —</option>
   </select>
   <button class="cb-btn primary" id="drawBtn" onclick="startDraw()" disabled>Draw</button>
-  <button class="cb-btn" onclick="openNames()">Names</button>
+  <button class="cb-btn" onclick="openNames()">Names (<span id="availCount">0</span>)</button>
   <button class="cb-btn" id="logBtn" onclick="toggleLog()">Results (0)</button>
   <button class="cb-btn" onclick="resetAll()" style="color:#c05050;border-color:#f0c0c0;">Reset</button>
 </div>
@@ -654,6 +654,11 @@ function buildPrizeSelect() {
       sel.appendChild(opt);
     }
   });
+  updateAvailCount();
+}
+
+function updateAvailCount() {
+  document.getElementById('availCount').textContent = available.length;
 }
 function onPrizeChange() {
   selectedPrize = document.getElementById('prizeSelect').value;
@@ -743,6 +748,7 @@ function spinReel(idx, targetChar, onDone) {
 }
 
 function revealWinner(name) {
+  // Rule: temporarily remove winner from pool; Reset brings them back
   available = available.filter(n => n !== name);
   drawnPrizes.add(selectedPrize);
   winners.unshift({name, prize: selectedPrize});
@@ -765,6 +771,7 @@ function revealWinner(name) {
   isDrawing = false;
   selectedPrize = '';
   buildPrizeSelect();
+  updateAvailCount();
   document.getElementById('drawBtn').disabled = true;
 }
 
@@ -796,7 +803,9 @@ function closeModal() { document.getElementById('modalBg').classList.remove('sho
 function saveNames() {
   participants = document.getElementById('nameInput').value
     .split('\n').map(s=>s.trim()).filter(Boolean);
-  available = participants.filter(p => !winners.find(w=>w.name===p));
+  // Re-filter available to exclude anyone who has already won
+  available = participants.filter(p => !winners.some(w => w.name === p));
+  updateAvailCount();
   closeModal();
 }
 
@@ -806,6 +815,7 @@ function resetAll() {
   available = [...participants];
   drawnPrizes.clear(); winners = []; selectedPrize = '';
   buildPrizeSelect();
+  updateAvailCount();
   document.getElementById('drawBtn').disabled = true;
   document.getElementById('winnerPanel').classList.remove('show');
   document.getElementById('logStrip').classList.remove('open');
