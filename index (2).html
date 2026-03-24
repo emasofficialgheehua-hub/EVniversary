@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1st EV-niversary Lucky Draw</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --pink: #1A6AC8;
+  --pink2: #2A8FE8;
+  --gold: #C19B50;
+  --gold-light: #E2C47A;
+  --white: #ffffff;
+  --off: #f0f4f8;
+  --dark: #0a1628;
+  --text-dark: #0a1628;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--off);
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ── HEADER BANNER ── */
+.header {
+  width: 100%;
+  padding: 40px 40px 60px; /* Extended padding downward */
+  background: linear-gradient(135deg, #0d4fa0 0%, #1a6ac8 40%, #2a8fe8 70%, #5bb3f5 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 120%, rgba(255,255,255,0.12) 0%, transparent 70%),
+    radial-gradient(circle at 10% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 90% 50%, rgba(255,255,255,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+/* subtle diagonal light sweep */
+.header::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -20%;
+  width: 40%; height: 200%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.07), transparent);
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-size: clamp(0.55rem, 1.2vw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  position: relative;
+}
+.header-title {
+  font-size: clamp(1.2rem, 3vw, 2.2rem); /* Shrunk title size */
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.05;
+  position: relative;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+.header-logos {
+  position: absolute;
+  right: 28px; top: 50%; transform: translateY(-50%);
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0.9;
+}
+.logo-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* ── STAGE ── */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 24px; /* Increased top padding to move reels downward */
+  gap: 28px;
+  position: relative;
+}
+
+/* subtle grid bg */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(26,106,200,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,106,200,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ── REELS ROW ── */
+.reels-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.reel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.reel {
+  width: clamp(72px, 10vw, 110px);
+  height: clamp(90px, 13vw, 136px);
+  background: #ffffff;
+  border: 2px solid #d0dcea;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* dashed overlay — exactly like the reference */
+.reel::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1.5px dashed #b0c0d4;
+  border-radius: 3px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* top/bottom fade */
+.reel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(240,244,248,0.85) 0%,
+    transparent 28%,
+    transparent 72%,
+    rgba(240,244,248,0.85) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reel-tape {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+}
+
+.reel-char {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  color: #0a1628;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.reel-label {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(10,22,40,0.35);
+}
+
+/* ── SEPARATOR DOT ── */
+.reel-sep {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 900;
+  color: #b0c0d4;
+  margin-top: -8px;
+  align-self: center;
+  line-height: 1;
+}
+
+/* ── WINNER PANEL (shown below reels after draw) ── */
+.winner-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  position: relative;
+  z-index: 1;
+  min-height: 60px;
+}
+.winner-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.wp-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--pink);
+  text-transform: uppercase;
+}
+.wp-name {
+  font-size: clamp(1.2rem, 3.5vw, 2rem);
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+.wp-prize {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border: 1px solid rgba(193,155,80,0.4);
+  background: rgba(193,155,80,0.07);
+  border-radius: 2px;
+}
+
+/* ── CONTROL BAR ── */
+.control-bar {
+  width: 100%;
+  background: white;
+  border-top: 1px solid #d8e4f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  box-shadow: 0 -2px 12px rgba(26,106,200,0.06);
+}
+
+.prize-select {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 10px 16px;
+  background: #f0f4f8;
+  border: 1.5px solid #c8d8ec;
+  color: var(--dark);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  text-transform: uppercase;
+  min-width: 180px;
+  border-radius: 4px;
+}
+
+.cb-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.16s;
+  border: 1.5px solid #c8d8ec;
+  background: #f0f4f8;
+  color: #4a6080;
+}
+.cb-btn:hover { background: #e0ecf8; border-color: #a0c0e0; color: var(--dark); }
+.cb-btn.primary {
+  background: linear-gradient(135deg, #1a6ac8, #2a8fe8);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgba(26,106,200,0.3);
+}
+.cb-btn.primary:hover { box-shadow: 0 4px 16px rgba(26,106,200,0.45); opacity: 0.92; }
+.cb-btn.primary:disabled {
+  background: #c8d8ec;
+  color: #8098b8;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ── WINNER POPUP OVERLAY ── */
+.winner-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 22, 50, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.winner-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.wo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 80px 56px;
+  background: #ffffff;
+  border-radius: 12px;
+  position: relative;
+  max-width: 850px;
+  width: 92%;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.25);
+  animation: cardPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --headline-h: clamp(2.2rem, 5.5vw, 4rem); /* This is X (1.0x) */
+}
+@keyframes cardPop {
+  from { transform: scale(0.88) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+/* blue top bar */
+.wo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #0d4fa0, #2a8fe8, #5bb3f5);
+  border-radius: 12px 12px 0 0;
+}
+.wo-eyebrow {
+  font-size: var(--headline-h); /* 1.0x */
+  font-weight: 900;
+  color: #0a1628;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-top: calc(var(--headline-h) * 0.4); /* Icon to Congratulations: 0.4x */
+  margin-bottom: calc(var(--headline-h) * 0.8); /* Congratulations to Prize: 0.8x */
+  line-height: 1.1;
+}
+.wo-prize-label {
+  font-size: calc(var(--headline-h) * 0.6); /* Prize: 0.6x */
+  font-weight: 500; /* Medium weight for visual contrast */
+  color: #1a3a60;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: calc(var(--headline-h) * 0.5); /* Prize to Blue Divider: 0.5x */
+}
+.wo-divider {
+  width: 50%; /* Width 50% of the Congratulations text (approximate) */
+  height: 2.5px;
+  background: #1a6ac8;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-bottom: calc(var(--headline-h) * 0.5); /* Blue Divider to "Winner" Label: 0.5x */
+}
+.wo-winner-label {
+  font-size: calc(var(--headline-h) * 0.2); /* Label Text (Winner): 0.2x */
+  font-weight: 400; /* Light weight */
+  letter-spacing: 0.35em; /* Increased letter-spacing (15% or more) */
+  color: #8098b8;
+  text-transform: uppercase;
+  margin-bottom: calc(var(--headline-h) * 0.25); /* "Winner" Label to Name: 0.25x */
+}
+.wo-name {
+  font-size: calc(var(--headline-h) * 0.5); /* Winner's Name: 0.5x */
+  font-weight: 800; /* Heavy bold */
+  color: #1a3a60;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.1;
+  margin-bottom: calc(var(--headline-h) * 1.0); /* Name to Button: 1.0x */
+}
+.wo-continue {
+  font-family: 'Montserrat', sans-serif;
+  font-size: calc(var(--headline-h) * 0.18); /* Button Text: 0.18x */
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 14px 48px;
+  background: linear-gradient(135deg, #1a6ac8, #2a8fe8);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(26,106,200,0.3);
+  transition: all 0.2s;
+}
+.wo-continue:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(26,106,200,0.4); }
+.wo-continue:hover { opacity: 0.85; }
+
+/* ── NAME MODAL ── */
+.modal-bg {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(10,22,40,0.7);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+}
+.modal-bg.show { display: flex; }
+.modal {
+  width: 90%; max-width: 520px;
+  background: white;
+  border-radius: 8px;
+  padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-title {
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.22em; color: var(--pink);
+  text-transform: uppercase;
+}
+.modal textarea {
+  background: #f0f4f8;
+  border: 1.5px solid #c8d8ec;
+  border-radius: 4px;
+  color: var(--dark);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem; font-weight: 400;
+  padding: 12px; resize: vertical;
+  min-height: 180px; outline: none;
+  line-height: 1.65; letter-spacing: 0.03em;
+  transition: border-color 0.18s;
+}
+.modal textarea:focus { border-color: #1a6ac8; }
+.modal-hint { font-size: 0.56rem; color: #8098b8; letter-spacing: 0.06em; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── WINNER LOG (collapsible bottom strip) ── */
+.log-strip {
+  position: fixed;
+  bottom: 56px; left: 0; right: 0;
+  z-index: 20;
+  background: rgba(240,244,248,0.96);
+  border-top: 1px solid #c8d8ec;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  backdrop-filter: blur(8px);
+}
+.log-strip.open { max-height: 180px; }
+.log-inner {
+  padding: 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.log-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0ecf8;
+  animation: fadeUp 0.3s ease;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.log-num { font-family:'DM Mono',monospace; font-size:0.6rem; color:#8098b8; text-align:right; }
+.log-name { font-weight:600; font-size:0.85rem; color:var(--dark); }
+.log-prize { font-size:0.55rem; font-weight:700; letter-spacing:0.14em; color:var(--gold); text-transform:uppercase; text-align:right; }
+
+/* canvas */
+#confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:200; }
+
+/* full page flex */
+body { display:flex; flex-direction:column; }
+.stage { flex:1; min-height:0; }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.webp" alt="Ghee Hua Logo" style="height: 60px; margin-bottom: 15px; position: relative; z-index: 1;">
+  <div class="header-title">1st EV-niversary Lucky Draw</div>
+  <!-- Logos removed as requested -->
+</div>
+
+<!-- STAGE -->
+<div class="stage">
+  <div class="reels-row" id="reelsRow">
+    <!-- built by JS -->
+  </div>
+  <div class="winner-panel" id="winnerPanel">
+    <div class="wp-label">Winner</div>
+    <div class="wp-name" id="wpName"></div>
+    <div class="wp-prize" id="wpPrize"></div>
+  </div>
+</div>
+
+<!-- WINNER POPUP OVERLAY -->
+<div class="winner-overlay" id="winnerOverlay">
+  <div class="wo-card">
+    <div class="wo-eyebrow">Congratulations!</div>
+    <div class="wo-prize-label" id="woPrizeLabel"></div>
+    <div class="wo-divider"></div>
+    <div class="wo-winner-label">Winner</div>
+    <div class="wo-name" id="woNameLabel"></div>
+    <button class="wo-continue" onclick="closeWinnerOverlay()">Continue →</button>
+  </div>
+</div>
+
+<!-- LOG STRIP -->
+<div class="log-strip" id="logStrip">
+  <div class="log-inner" id="logInner"></div>
+</div>
+
+<!-- CONTROL BAR -->
+<div class="control-bar">
+  <select class="prize-select" id="prizeSelect" onchange="onPrizeChange()">
+    <option value="">— Select Prize —</option>
+  </select>
+  <button class="cb-btn primary" id="drawBtn" onclick="startDraw()" disabled>Draw</button>
+  <button class="cb-btn" onclick="openNames()">Names</button>
+  <button class="cb-btn" id="logBtn" onclick="toggleLog()">Results (0)</button>
+  <button class="cb-btn" onclick="resetAll()" style="color:#c05050;border-color:#f0c0c0;">Reset</button>
+</div>
+
+<!-- NAMES MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-title">Participant List</div>
+    <textarea id="nameInput"></textarea>
+    <div class="modal-hint">One name per line · Changes apply immediately</div>
+    <div class="modal-actions">
+      <button class="cb-btn" onclick="closeModal()">Cancel</button>
+      <button class="cb-btn primary" onclick="saveNames()">Save & Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const PRIZES = [
+  'Travel Ticket RM 2,599','Smart TV','Smart Tablet',
+  'Electronic Vacuum','Washing Machine','Air Fryer',
+  'Stand Fan','Microwave','Fridge','Water Pressure Jet','Hair Dryer',
+];
+
+let participants = [
+  'Ahmad bin Abdullah','Siti Rahmah binti Kassim','Lee Wei Ming',
+  'Chong Siew Lan','Mohd Farid bin Hassan','Jennifer Tan Mei Ling',
+  'Rajan a/l Subramaniam','Nurul Ain binti Omar','Wong Kok Wai',
+  'Fatimah binti Yusof','Lim Boon Huat','Amirul Haziq bin Zulkifli',
+  'Grace Ling Ai Ling','Harith Azfar bin Ramli','Stella Wong Hui Ling',
+  'Zaidi bin Mohd Noor','Chin Pei Fen','Azlan bin Aziz',
+  'Mary Magdalene Thomas','Nazri bin Kamaruddin',
+];
+
+let available = [...participants];
+let drawnPrizes = new Set();
+let winners = [];
+let isDrawing = false;
+let selectedPrize = '';
+
+// ── REELS ──
+// Fixed cell height — never relies on clientHeight which can be 0 before paint
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const CELL_H = 120; // must match CSS .reel height
+let reelElements = [];
+
+function buildReels(count) {
+  const row = document.getElementById('reelsRow');
+  row.innerHTML = '';
+  reelElements = [];
+  const n = count || 8;
+  for (let i = 0; i < n; i++) {
+    const wrap = document.createElement('div');
+    wrap.className = 'reel-wrap';
+
+    const reel = document.createElement('div');
+    reel.className = 'reel';
+
+    const tape = document.createElement('div');
+    tape.className = 'reel-tape';
+    tape.style.transform = 'translateY(0)';
+
+    // seed with specific characters: G H E E [space] H U A
+    const defaultChars = ['G','H','E','E',' ','H','U','A'];
+    const idle = document.createElement('div');
+    idle.className = 'reel-char';
+    idle.style.height = CELL_H + 'px';
+    idle.textContent = defaultChars[i] || ' ';
+    tape.appendChild(idle);
+
+    reel.appendChild(tape);
+    wrap.appendChild(reel);
+    row.appendChild(wrap);
+    reelElements.push({ tape });
+  }
+}
+
+function randChar() {
+  return CHARS[Math.floor(Math.random() * CHARS.length)];
+}
+
+// ── PRIZE SELECT ──
+function buildPrizeSelect() {
+  const sel = document.getElementById('prizeSelect');
+  sel.innerHTML = '<option value="">— Select Prize —</option>';
+  PRIZES.forEach(p => {
+    if (!drawnPrizes.has(p)) {
+      const opt = document.createElement('option');
+      opt.value = p; opt.textContent = p;
+      if (p === selectedPrize) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  });
+}
+function onPrizeChange() {
+  selectedPrize = document.getElementById('prizeSelect').value;
+  document.getElementById('drawBtn').disabled = !selectedPrize || !available.length;
+  document.getElementById('winnerPanel').classList.remove('show');
+  buildReels(8);
+}
+
+// ── DRAW ──
+function startDraw() {
+  if (!selectedPrize || isDrawing || !available.length) return;
+  isDrawing = true;
+  document.getElementById('drawBtn').disabled = true;
+  document.getElementById('winnerPanel').classList.remove('show');
+
+  const winner = available[Math.floor(Math.random() * available.length)];
+  const winnerUpper = winner.toUpperCase();
+
+  // Rebuild reels to match exact character count of winner name
+  const nameChars = winnerUpper.split('');
+  buildReels(nameChars.length);
+
+  // Spin each reel staggered, last one lands on target char
+  // Shortened stagger delay from 160ms to 60ms for faster start
+  const promises = nameChars.map((ch, i) => {
+    return new Promise(resolve => {
+      setTimeout(() => spinReel(i, ch, resolve), i * 60);
+    });
+  });
+
+  Promise.all(promises).then(() => revealWinner(winner));
+}
+
+function spinReel(idx, targetChar, onDone) {
+  const { tape } = reelElements[idx];
+  const spinCount = 28 + Math.floor(Math.random() * 14); // random chars before landing
+
+  // Build tape: random chars + target at the end
+  tape.innerHTML = '';
+  const allChars = [];
+  for (let i = 0; i < spinCount; i++) allChars.push(randChar());
+  allChars.push(targetChar);
+
+  allChars.forEach(ch => {
+    const div = document.createElement('div');
+    div.className = 'reel-char';
+    div.style.height = CELL_H + 'px';
+    div.textContent = ch;
+    tape.appendChild(div);
+  });
+
+  // targetY: scroll so LAST cell is visible in the reel window
+  // reel shows one cell (CELL_H tall); last cell starts at index spinCount
+  const targetY = -(spinCount * CELL_H);
+
+  // Adjusted duration and easing for a smoother, more "mechanical" feel
+  const dur = 1200 + idx * 80 + Math.random() * 200;
+  tape.style.transition = 'none';
+  tape.style.transform = 'translateY(0)';
+
+  // Force reflow so transition fires correctly
+  tape.getBoundingClientRect();
+
+  // Using a more standard ease-out for a smoother deceleration
+  tape.style.transition = `transform ${dur}ms cubic-bezier(0.25, 0.1, 0.25, 1.0)`;
+  tape.style.transform = `translateY(${targetY}px)`;
+
+  setTimeout(() => {
+    tape.style.transition = 'none';
+    onDone();
+  }, dur + 80);
+}
+
+function revealWinner(name) {
+  available = available.filter(n => n !== name);
+  drawnPrizes.add(selectedPrize);
+  winners.unshift({name, prize: selectedPrize});
+
+  // update small panel under reels
+  document.getElementById('wpName').textContent = name;
+  document.getElementById('wpPrize').textContent = selectedPrize;
+  document.getElementById('winnerPanel').classList.add('show');
+
+  // show big popup overlay
+  document.getElementById('woPrizeLabel').textContent = selectedPrize;
+  document.getElementById('woNameLabel').textContent = name;
+  setTimeout(() => {
+    document.getElementById('winnerOverlay').classList.add('show');
+    fireConfetti();
+  }, 400);
+
+  renderLog();
+
+  isDrawing = false;
+  selectedPrize = '';
+  buildPrizeSelect();
+  document.getElementById('drawBtn').disabled = true;
+}
+
+function closeWinnerOverlay() {
+  document.getElementById('winnerOverlay').classList.remove('show');
+}
+
+// ── LOG ──
+function renderLog() {
+  const count = winners.length;
+  document.getElementById('logBtn').textContent = `Results (${count})`;
+  document.getElementById('logInner').innerHTML = winners.map((w,i) => `
+    <div class="log-row">
+      <div class="log-num">${String(count-i).padStart(2,'0')}</div>
+      <div class="log-name">${w.name}</div>
+      <div class="log-prize">${w.prize}</div>
+    </div>`).join('');
+}
+function toggleLog() {
+  document.getElementById('logStrip').classList.toggle('open');
+}
+
+// ── NAMES ──
+function openNames() {
+  document.getElementById('nameInput').value = participants.join('\n');
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
+function saveNames() {
+  participants = document.getElementById('nameInput').value
+    .split('\n').map(s=>s.trim()).filter(Boolean);
+  available = participants.filter(p => !winners.find(w=>w.name===p));
+  closeModal();
+}
+
+// ── RESET ──
+function resetAll() {
+  if (!confirm('Reset all draws?')) return;
+  available = [...participants];
+  drawnPrizes.clear(); winners = []; selectedPrize = '';
+  buildPrizeSelect();
+  document.getElementById('drawBtn').disabled = true;
+  document.getElementById('winnerPanel').classList.remove('show');
+  document.getElementById('logStrip').classList.remove('open');
+  renderLog();
+  buildReels(8);
+}
+
+// ── CONFETTI ──
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let pieces=[], rafId=null;
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+addEventListener('resize',()=>{resize();}); resize();
+
+function fireConfetti() {
+  const colors=['#1a6ac8','#2a8fe8','#5bb3f5','#C19B50','#E2C47A','#ffffff','#0d4fa0'];
+  for(let i=0;i<130;i++) pieces.push({
+    x:Math.random()*canvas.width, y:-10,
+    w:5+Math.random()*10, h:3+Math.random()*5,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    vx:-3+Math.random()*6, vy:2+Math.random()*5,
+    rot:Math.random()*Math.PI*2, rv:(-1+Math.random()*2)*0.08,
+    g:0.055+Math.random()*0.04, op:1,
+  });
+  if(!rafId) animate();
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pieces.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.rot+=p.rv;
+    if(p.y>canvas.height*0.72)p.op-=0.018;
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+    ctx.globalAlpha=Math.max(0,p.op);ctx.fillStyle=p.color;
+    ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+  });
+  pieces=pieces.filter(p=>p.op>0);
+  rafId=pieces.length?requestAnimationFrame(animate):null;
+  if(!rafId)ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  buildPrizeSelect();
+  buildReels(8);
+  renderLog();
+});
+</script>
+</body>
+</html>
