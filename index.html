@@ -515,6 +515,7 @@ body { display:flex; flex-direction:column; }
 <body>
 
 <canvas id="confetti-canvas"></canvas>
+<audio id="spinSound" src="spin.mp3" preload="auto"></audio>
 
 <!-- HEADER -->
 <div class="header">
@@ -668,6 +669,13 @@ function startDraw() {
   document.getElementById('drawBtn').disabled = true;
   document.getElementById('winnerPanel').classList.remove('show');
 
+  // Play spin sound
+  const spinSound = document.getElementById('spinSound');
+  if (spinSound) {
+    spinSound.currentTime = 0;
+    spinSound.play().catch(e => console.log("Audio play failed:", e));
+  }
+
   const winner = available[Math.floor(Math.random() * available.length)];
   const winnerUpper = winner.toUpperCase();
 
@@ -683,7 +691,15 @@ function startDraw() {
     });
   });
 
-  Promise.all(promises).then(() => revealWinner(winner));
+  Promise.all(promises).then(() => {
+    // Stop spin sound
+    const spinSound = document.getElementById('spinSound');
+    if (spinSound) {
+      spinSound.pause();
+      spinSound.currentTime = 0;
+    }
+    revealWinner(winner);
+  });
 }
 
 function spinReel(idx, targetChar, onDone) {
