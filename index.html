@@ -112,11 +112,11 @@ html, body { width:100%; height:100%; background:var(--off); font-family:'Montse
 .wo-card {
   display:flex; flex-direction:row; align-items:stretch;
   background:#ffffff; border-radius:16px; position:relative;
-  max-width:960px; width:94%;
+  max-width:900px; width:94%;
   box-shadow:0 40px 100px rgba(0,0,0,0.35);
   animation:cardPop 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
   overflow:hidden;
-  --headline-h: clamp(1.8rem,4vw,3rem);
+  --headline-h: clamp(1.4rem,3vw,2.4rem);
 }
 @keyframes cardPop {
   from { transform:scale(0.88) translateY(20px); opacity:0; }
@@ -130,7 +130,7 @@ html, body { width:100%; height:100%; background:var(--off); font-family:'Montse
 
 /* LEFT: image panel */
 .wo-image-panel {
-  width:380px; flex-shrink:0;
+  width:320px; flex-shrink:0;
   background:linear-gradient(160deg,#0a1628 0%,#0d2a50 60%,#0f3a6e 100%);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding:48px 32px 40px; position:relative; overflow:hidden;
@@ -158,17 +158,19 @@ html, body { width:100%; height:100%; background:var(--off); font-family:'Montse
 .wo-info-panel {
   flex:1; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  padding:60px 52px 52px;
+  padding:40px 36px 40px; overflow:hidden;
 }
 .wo-eyebrow {
-  font-size:var(--headline-h); font-weight:900; color:#0a1628;
+  font-size:clamp(1.2rem,2.6vw,2rem); font-weight:900; color:#0a1628;
   letter-spacing:0.01em; text-transform:uppercase;
   margin-bottom:calc(var(--headline-h)*0.55); line-height:1.05; text-align:center;
+  word-break:break-word;
 }
 .wo-prize-label {
-  font-size:calc(var(--headline-h)*0.52); font-weight:600; color:#1a3a60;
+  font-size:calc(var(--headline-h)*0.48); font-weight:600; color:#1a3a60;
   letter-spacing:0.03em; text-align:center; line-height:1.2;
   text-transform:uppercase; margin-bottom:calc(var(--headline-h)*0.45);
+  word-break:break-word;
 }
 .wo-divider {
   width:64px; height:3px;
@@ -302,17 +304,17 @@ body { display:flex; flex-direction:column; }
 
 <script>
 const PRIZE_IMAGES = {
-  'Travel Voucher (worth RM2,688)': 'Travel_Voucher__worth_RM2_688_.png',
-  'Smart TV':                       'Smart_TV.png',
-  'Smart Tablet':                   'Smart_Tablet.png',
-  'Electronic Vacuum':              'Eelectronic_Vacuum.png',
-  'Washing Machine':                'Washing_Machine.png',
-  'Air Fryer':                      'Air_Fryer.png',
-  'Stand Fan':                      'Stand_Fan.png',
+  'Travel Voucher (worth RM2,688)': 'Travel Voucher (worth RM2,688).png',
+  'Smart TV':                       'Smart TV.png',
+  'Smart Tablet':                   'Smart Tablet.png',
+  'Electronic Vacuum':              'Eelectronic Vacuum.png',
+  'Washing Machine':                'Washing Machine.png',
+  'Air Fryer':                      'Air Fryer.png',
+  'Stand Fan':                      'Stand Fan.png',
   'Microwave':                      'Microwave.png',
   'Fridge':                         'Fridge.png',
-  'Water Pressure Jet':             'Water_Pressure_Jet.png',
-  'Hair Dryer':                     'Hair_Dryer.png',
+  'Water Pressure Jet':             'Water Pressure Jet.png',
+  'Hair Dryer':                     'Hair Dryer.png',
 };
 
 const PRIZES = [
