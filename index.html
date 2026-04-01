@@ -755,7 +755,8 @@ function revealWinner(name){
 
   const imgEl=document.getElementById('woPrizeImg');
   const imgFile=PRIZE_IMAGES[selectedPrize];
-  imgEl.src=imgFile?imgFile:''; imgEl.style.display=imgFile?'block':'none';
+  imgEl.src=''; imgEl.style.display='none';
+  if(imgFile){ imgEl.onload=()=>{ imgEl.style.display='block'; }; imgEl.src=imgFile; }
   document.getElementById('woImgPrizeName').textContent=selectedPrize;
   document.getElementById('woPrizeLabel').textContent=selectedPrize;
   document.getElementById('woNameLabel').textContent=name;
